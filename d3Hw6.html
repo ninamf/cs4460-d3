@@ -36,6 +36,7 @@
 		
 	</style>
 </head>
+	<title>US Olympic Medals</title>
 <body>
 	<h1>US Medals Won in Olympic Games Since 1896</h1>
 	<div class"details"></div>
@@ -126,15 +127,42 @@
 	      .attr("x", function(d) { return x1(d.name); })
 	      .attr("y", function(d) { return height; })
 	      .attr("height", function(d) { return 0; })
+		  .on("mouseover", function(d){d3.select(this).style("opacity", function(d){return "0.5"})})
+		  .on("mouseout", function(d){d3.select(this).style("opacity", function(d){return "1.0"})})
 	      .style("fill", function(d) { return color(d.name); })
 	///////
 		  .transition()
 		  .duration(function(d) {return (height - y(d.value)) * 5;})
 	      .attr("width", x1.rangeBand())
 	      .attr("x", function(d) { return x1(d.name); })
-	      .attr("y", function(d) { return y(d.value); })
-	      .attr("height", function(d) { return height - y(d.value); })
-	      .style("fill", function(d) { return color(d.name); });
+	      .attr("y", function(d) { 
+		var ret
+		if(d.value <= 0){
+			ret = 85;
+		}
+		else{
+			ret = d.value;
+		}
+		
+		return y(ret); })
+	      .attr("height", function(d) { 
+		var h;
+		if(d.value <= 0){
+			h = height - y(85);
+		}
+		else{
+			h = height - y(d.value);
+		}
+		return h; })
+	      .style("fill", function(d) { 
+		var retVal
+		if(d.value == 0){
+			retVal = "#FFF";
+		}
+		else{
+			retVal = color(d.name);
+		}
+		return retVal; });
 	
 	$('g').tipsy({
 		gravity:'w', html:true, title:function(){
@@ -175,7 +203,6 @@
 
 	});
 	
-	d3.select("g").selectAll("rect").on("mouseenter",function(){d3.select(this).style("fill", "#0000");});
 
 </script>
 </body>
