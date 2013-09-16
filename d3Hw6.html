@@ -19,6 +19,22 @@
 		.x.axis path {
 	  		display: none;
 		}
+		/* IMPORTED FROM JQUERY TIPSY */
+		.tipsy { font-size: 13px;position: absolute; z-index: 100000;  margin-top:100px; padding: 5px; }
+		  .tipsy-inner { background-color: #000; color: #FFF; max-width: 600px; padding: 5px 8px 4px 8px;text-align: center; margin-top:100px;}
+
+		  /* Rounded corners */
+		  .tipsy-inner { border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; }
+
+		  /* Uncomment for shadow */
+		  /*.tipsy-inner { box-shadow: 0 0 5px #000000; -webkit-box-shadow: 0 0 5px #000000; -moz-box-shadow: 0 0 5px #000000; }*/
+
+		  .tipsy-arrow { position: absolute; width: 0; height: 0; line-height: 0; border: 5px dashed #000; }
+
+		  /* Rules to colour arrows */
+		  .tipsy-w .tipsy-arrow { left: 0; top: 50%; margin-top: 400px; border-right-style: solid; border-left: none; border-top-color: transparent; border-bottom-color: transparent; opacity:0;}
+
+		
 	</style>
 	</head>
 
@@ -28,6 +44,9 @@
 	
 	
 	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+	<script src="jquery.tipsy.js"></script>
+	
 	<script>
 
 	
@@ -88,11 +107,17 @@
 	      .style("text-anchor", "end")
 	      .text("Number of Medals");
 
-	  var games = svg.selectAll(".games")
+	  var games = svg.selectAll("g.games")
 	      .data(data)
 	      .enter().append("g")
-	      .attr("class", "g")
-	      .attr("transform", function(d) { return "translate(" + x0(d.Games) + ",0)"; });
+	      .attr("class", "games_Group")
+	      .attr("transform", function(d) { return "translate(" + x0(d.Games) + ",0)"; })
+		  .attr("height", function(){return 200;})
+		  .attr("width", function(){return 27;})
+		  .attr("gx", function(d){return d.x;})
+		   .attr("gy", function(d){return d.y;})
+		  .attr("id", function(d){return "gamesGroup" + d.Games;});
+
 
 	  games.selectAll("rect")
 	      .data(function(d) { return d.medalsWon; })
@@ -102,6 +127,7 @@
 	      .attr("y", function(d) { return 600; })
 	      .attr("height", function(d) { return 0; })
 	      .style("fill", function(d) { return color(d.name); })
+	///////
 		  .transition()
 		  .duration(3000)
 	      .attr("width", x1.rangeBand())
@@ -109,6 +135,23 @@
 	      .attr("y", function(d) { return y(d.value); })
 	      .attr("height", function(d) { return height - y(d.value); })
 	      .style("fill", function(d) { return color(d.name); });
+	
+	$('g').tipsy({
+		gravity:'w', html:true, title:function(){
+			var d = this.__data__; 
+			var string;
+			if(d.Comments !==("NA")){
+				string = 'City: ' + d.Country +  ' ---   Total Medals: ' + d.Total  + ' ---   Comments: ' + d.Comments;
+			}
+			else{
+				string = 'City: ' + d.Country +  ' ---   Total Medals: ' + d.Total; 
+			}
+			return string;
+		}
+	})
+	
+	  
+	      
 
 	  var legend = svg.selectAll(".legend")
 	      .data(medals.slice(1,5).reverse())
@@ -134,6 +177,8 @@
 	  		.attr
 
 	});
+	
+	d3.select("g").selectAll("rect").on("mouseenter",function(){d3.select(this).style("fill", "#0000");});
 
 </script>
 </body>
