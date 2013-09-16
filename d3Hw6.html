@@ -33,8 +33,8 @@
 	
 	
 	var margin = {top: 20, right: 20, bottom: 30, left: 40},
-	    width = 960 - margin.left - margin.right,
-	    height = 500 - margin.top - margin.bottom;
+	    width = 1200 - margin.left - margin.right,
+	    height = 650 - margin.top - margin.bottom;
 
 	var x0 = d3.scale.ordinal()
 	    .rangeRoundBands([0, width], .1);
@@ -45,7 +45,7 @@
 	    .range([height, 0]);
 
 	var color = d3.scale.ordinal()
-	    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+	    .range(["#000000", "#4dc6ba", "#ffd980", "#f27998", "#625a7f", "#000000", "#000000"]);
 
 	var xAxis = d3.svg.axis()
 	    .scale(x0)
@@ -63,7 +63,7 @@
 	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	d3.csv("US_medals.csv", function(error, data) {
-	  var medals = d3.keys(data[0]).filter(function(key) { return key !== "Games"; });
+	  var medals = d3.keys(data[0]).filter(function(key) { if(key!== "Games" && key !=="Total"&& key !=="Comments") return key; });
 
 	  data.forEach(function(d) {
 	    d.medalsWon = medals.map(function(name) { return {name: name, value: +d[name]}; });
@@ -97,6 +97,13 @@
 	  games.selectAll("rect")
 	      .data(function(d) { return d.medalsWon; })
 	    .enter().append("rect")
+		  .attr("width", x1.rangeBand())
+	      .attr("x", function(d) { return x1(d.name); })
+	      .attr("y", function(d) { return y(d.value); })
+	      .attr("height", function(d) { return 0; })
+	      .style("fill", function(d) { return color(d.name); })
+		  .transition()
+		  .duration(3000)
 	      .attr("width", x1.rangeBand())
 	      .attr("x", function(d) { return x1(d.name); })
 	      .attr("y", function(d) { return y(d.value); })
