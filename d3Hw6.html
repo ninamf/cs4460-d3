@@ -90,13 +90,13 @@
 
 	  var games = svg.selectAll(".games")
 	      .data(data)
-	    .enter().append("g")
+	      .enter().append("g")
 	      .attr("class", "g")
 	      .attr("transform", function(d) { return "translate(" + x0(d.Games) + ",0)"; });
 
 	  games.selectAll("rect")
 	      .data(function(d) { return d.medalsWon; })
-	    .enter().append("rect")
+	      .enter().append("rect")
 		  .attr("width", x1.rangeBand())
 	      .attr("x", function(d) { return x1(d.name); })
 	      .attr("y", function(d) { return 600; })
