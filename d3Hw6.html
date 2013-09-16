@@ -127,7 +127,16 @@
 	      .attr("x", function(d) { return x1(d.name); })
 	      .attr("y", function(d) { return height; })
 	      .attr("height", function(d) { return 0; })
-		  .on("mouseover", function(d){d3.select(this).style("opacity", function(d){return "0.5"})})
+		  .on("mouseover", function(d){d3.select(this).style("opacity", function(d){
+			var r
+			if(d.value <= 0){
+				r = "1.0"
+			}
+			else{
+				r = "0.5";
+			}
+			
+			return r})})
 		  .on("mouseout", function(d){d3.select(this).style("opacity", function(d){return "1.0"})})
 	      .style("fill", function(d) { return color(d.name); })
 	///////
@@ -138,7 +147,7 @@
 	      .attr("y", function(d) { 
 		var ret
 		if(d.value <= 0){
-			ret = 85;
+			ret = 1;
 		}
 		else{
 			ret = d.value;
@@ -148,7 +157,7 @@
 	      .attr("height", function(d) { 
 		var h;
 		if(d.value <= 0){
-			h = height - y(85);
+			h = height - y(1);
 		}
 		else{
 			h = height - y(d.value);
@@ -157,7 +166,7 @@
 	      .style("fill", function(d) { 
 		var retVal
 		if(d.value == 0){
-			retVal = "#FFF";
+			retVal = "#000";
 		}
 		else{
 			retVal = color(d.name);
