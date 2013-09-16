@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
-<body>
-	<head>
+<head>
 	<!-- WE CAN PUT THE CSS HERE -->
 	<style>
 		body {
@@ -36,20 +35,23 @@
 
 		
 	</style>
-	</head>
+</head>
+<body>
+	<h1>US Medals Won in Olympic Games Since 1896</h1>
+	<div class"details"></div>
 
-<h1>US Medals Won in Olympic Games Since 1896</h1>
-
-	
-	
 	
 	<script src="http://d3js.org/d3.v3.min.js"></script>
+<<<<<<< HEAD
 	<script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
 	<script src="jquery.tipsy.js"></script>
 	
 	<script>
 
 	
+=======
+	<script>	
+>>>>>>> 449d22696f49f79c470874a8708c3b964717b8ac
 	
 	var margin = {top: 20, right: 20, bottom: 30, left: 40},
 	    width = 1200 - margin.left - margin.right,
@@ -82,7 +84,7 @@
 	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	d3.csv("US_medals.csv", function(error, data) {
-	  var medals = d3.keys(data[0]).filter(function(key) { if(key!== "Games" && key !=="Total"&& key !=="Comments") return key; });
+	  var medals = d3.keys(data[0]).filter(function(key) { return key !== "Games" && key !== "Total" && key !== "Comments"; });
 
 	  data.forEach(function(d) {
 	    d.medalsWon = medals.map(function(name) { return {name: name, value: +d[name]}; });
@@ -107,7 +109,13 @@
 	      .style("text-anchor", "end")
 	      .text("Number of Medals");
 
+<<<<<<< HEAD
 	  var games = svg.selectAll("g.games")
+=======
+	 
+
+	  var games = svg.selectAll(".games")
+>>>>>>> 449d22696f49f79c470874a8708c3b964717b8ac
 	      .data(data)
 	      .enter().append("g")
 	      .attr("class", "games_Group")
@@ -119,21 +127,24 @@
 		  .attr("id", function(d){return "gamesGroup" + d.Games;});
 
 
+	  
+
 	  games.selectAll("rect")
 	      .data(function(d) { return d.medalsWon; })
 	      .enter().append("rect")
 		  .attr("width", x1.rangeBand())
 	      .attr("x", function(d) { return x1(d.name); })
-	      .attr("y", function(d) { return 600; })
+	      .attr("y", function(d) { return height; })
 	      .attr("height", function(d) { return 0; })
 	      .style("fill", function(d) { return color(d.name); })
 	///////
 		  .transition()
-		  .duration(3000)
+		  .duration(function(d) {return (height - y(d.value)) * 5;})
 	      .attr("width", x1.rangeBand())
 	      .attr("x", function(d) { return x1(d.name); })
 	      .attr("y", function(d) { return y(d.value); })
 	      .attr("height", function(d) { return height - y(d.value); })
+<<<<<<< HEAD
 	      .style("fill", function(d) { return color(d.name); });
 	
 	$('g').tipsy({
@@ -151,6 +162,10 @@
 	})
 	
 	  
+=======
+	      .style("fill", function(d) { return color(d.name); })
+	  		;
+>>>>>>> 449d22696f49f79c470874a8708c3b964717b8ac
 	      
 
 	  var legend = svg.selectAll(".legend")
@@ -173,8 +188,6 @@
 	      .style("text-anchor", "end")
 	      .text(function(d) { return d; });
 
-	  var comments = svg.selectAll("text")
-	  		.attr
 
 	});
 	
