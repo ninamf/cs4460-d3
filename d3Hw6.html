@@ -99,7 +99,7 @@
 	    .enter().append("rect")
 		  .attr("width", x1.rangeBand())
 	      .attr("x", function(d) { return x1(d.name); })
-	      .attr("y", function(d) { return y(d.value); })
+	      .attr("y", function(d) { return 600; })
 	      .attr("height", function(d) { return 0; })
 	      .style("fill", function(d) { return color(d.name); })
 		  .transition()
