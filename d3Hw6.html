@@ -127,7 +127,10 @@
 	      .attr("class", function(d) { return d.name;})
 	      .style("fill", function(d) { return color(d.name); })
 	      .on("mouseover", function(d) { 
-	   			d3.selectAll("."+d.name).style("fill", d3.rgb(color(d.name)).darker(2)); })
+		        if(d.value > 0){
+	   			d3.selectAll("."+d.name).style("fill", d3.rgb(color(d.name)).darker(2)); 
+            	}
+        	})
 	      .on("mouseout", function(d) {d3.selectAll("."+d.name).style("fill", color(d.name)); })
 	///////
 		  .transition()
@@ -138,7 +141,7 @@
 
 		var ret
 		if(d.value <= 0){
-			ret = 1;
+			ret = 80;
 		}
 		else{
 			ret = d.value;
@@ -148,19 +151,19 @@
 	      .attr("height", function(d) { 
 		var h;
 		if(d.value <= 0){
-			h = height - y(1);
+			h = height - y(80);
 		}
 		else{
 			h = height - y(d.value);
 		}
 		return h; })
-	      .style("fill", function(d) { 
+	      .style("opacity", function(d) { 
 		var retVal
 		if(d.value == 0){
-			retVal = "#000";
+			retVal = "0.0";
 		}
 		else{
-			retVal = color(d.name);
+			retVal = "1.0";
 		}
 		return retVal; });
 		
