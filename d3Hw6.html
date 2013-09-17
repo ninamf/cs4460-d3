@@ -120,23 +120,27 @@
 
 	  
 
-	  games.selectAll("rect")
+	  var rects = games.selectAll("rect")
 	      .data(function(d) { return d.medalsWon; })
 	      .enter().append("rect")
 		  .attr("width", x1.rangeBand())
 	      .attr("x", function(d) { return x1(d.name); })
 	      .attr("y", function(d) { return height; })
 	      .attr("height", function(d) { return 0; })
-		  .on("mouseover", function(d){d3.select(this).style("opacity", function(d){
-			var r
-			if(d.value <= 0){
-				r = "1.0"
-			}
-			else{
-				r = "0.5";
-			}
+		  .on("mouseover", function(d){
+			d3.select(this).style("opacity", function(d){
+				var r
+				if(d.value <= 0){
+					r = "1.0"
+				}
+				else{
+					r = "0.5";
+				}
 			
-			return r})})
+				return r;
+				})
+			
+			})
 		  .on("mouseout", function(d){d3.select(this).style("opacity", function(d){return "1.0"})})
 	      .style("fill", function(d) { return color(d.name); })
 	///////
@@ -172,20 +176,37 @@
 			retVal = color(d.name);
 		}
 		return retVal; });
+		
+		
+		
 	
 	$('g').tipsy({
 		gravity:'w', html:true, title:function(){
 			var d = this.__data__; 
 			var string;
 			if(d.Comments !==("NA")){
-				string = 'City: ' + d.Country +  ' ---   Total Medals: ' + d.Total  + ' ---   ' + d.Comments;
+				string = 'City: ' + d.Country +  '<br/> Total Medals: ' + d.Total  + '<br/>' + d.Comments;
+			}
+			else{
+				string = 'City: ' + d.Country +  '<br/> Total Medals: ' + d.Total; 
+			}
+			return string;
+		}
+	})
+	/*$('rect').tipsy({
+		gravity:'w', html:true, title:function(){
+			var d = this.__data__; 
+			var string;
+			if(d.Comments !==("NA") && d.Value == d.Gold){
+				string = 'City: ' + d.Country + ' --- Gold Medals: ' + d.Gold +  ' ---   Total Medals: ' + d.Total  + ' ---   ' + d.Comments;
 			}
 			else{
 				string = 'City: ' + d.Country +  ' ---   Total Medals: ' + d.Total; 
 			}
 			return string;
 		}
-	})
+	})*/
+	
 
 	      
 
