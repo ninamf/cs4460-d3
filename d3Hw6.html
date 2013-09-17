@@ -126,6 +126,9 @@
 	      .attr("height", function(d) { return 0; })
 	      .attr("class", function(d) { return d.name;})
 	      .style("fill", function(d) { return color(d.name); })
+	      .on("mouseover", function(d) { 
+	   			d3.selectAll("."+d.name).style("fill", d3.rgb(color(d.name)).darker(2)); })
+	      .on("mouseout", function(d) {d3.selectAll("."+d.name).style("fill", color(d.name)); })
 	///////
 		  .transition()
 		  .duration(function(d) {return (height - y(d.value)) * 5;})
@@ -203,8 +206,8 @@
 	      .text(function(d) { return d; });
 
 	   legend.on("mouseover", function(d) { 
-	   			d3.selectAll("."+d).style("opacity", ".5"); })
-	   	  .on("mouseout", function(d) {d3.selectAll("."+d).style("opacity", "1"); });
+	   			d3.selectAll("."+d).style("fill", d3.rgb(color(d)).darker(2)); })
+	   	  .on("mouseout", function(d) {d3.selectAll("."+d).style("fill", color(d)); });
 	});
 	
 
